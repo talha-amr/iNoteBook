@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect,useState } from "react";
 import { Container, Grid, Typography } from "@mui/material";
 import NoteContext from "../context/NoteContext";
 import NoteCard from "./NoteCard";
 import AddForm from "./AddForm";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
-
+import LoadingBar from "react-top-loading-bar";
 
 function Home() {
     let navigate = useNavigate();
@@ -14,25 +14,29 @@ function Home() {
     const { user, fetchUserData } = userC;
     const { notes, getNotes } = context;
 
+const [progress, setProgress] = useState(0);
     useEffect(() => {
         const checkAuthAndFetchNotes = async () => {
             const token = localStorage.getItem('authToken');
 
             if (!token) {
-
+                setProgress(30)
                 navigate('/');
+                setProgress(100)
                 return;
             }
 
-
+            setProgress(30)
             const result = await fetchUserData();
-
+            setProgress(100)
             if (!result.success) {
-
+                setProgress(30)
                 navigate('/');
+                setProgress(100)
             } else {
-
+                setProgress(30)
                 getNotes();
+                setProgress(100)
             }
         };
 
@@ -40,6 +44,12 @@ function Home() {
     }, []);
 
     return (
+        <>
+        <LoadingBar
+        color="#f11946"
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
         <Container>
             <AddForm />
             <Grid
@@ -69,6 +79,7 @@ function Home() {
                 )}
             </Grid>
         </Container>
+        </>
     );
 }
 

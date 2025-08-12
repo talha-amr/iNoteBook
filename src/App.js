@@ -17,7 +17,6 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        
         <Route exact path="/Dashboard" element={
     <NoteState>
       <Home />
