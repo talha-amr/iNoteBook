@@ -1,14 +1,16 @@
 import React from "react";
 import { Paper, TextField, Box, Typography, Button } from "@mui/material";
 import UserContext from "../context/UserContext";
-import { useContext } from "react";
+import { useContext,useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import LoadingScreen from "./LoadingScreen";
 
 export default function SignupPage() {
   const navigate = useNavigate();
   const context = useContext(UserContext);
   const { SignupCheck } = context;
+  const [isLoading, setIsLoading] = useState(false);
   
   const {
     register,
@@ -27,19 +29,22 @@ export default function SignupPage() {
   const password = watch("password"); 
 
   const onSubmit = async (data) => {
+     setIsLoading(true)
     const result = await SignupCheck({
       name: data.name,
       email: data.email,
       password: data.password,
     });
-    
+     setIsLoading(false)
     if (result.success) {
       navigate('/');
     } else {
       alert("Signup Failed");
     }
   };
-
+if (isLoading) {
+  return <LoadingScreen message="Creating your account..." />;
+}
   return (
     <Paper
       elevation={3}

@@ -1,14 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext,useState } from 'react'
 import { Paper, Typography, TextField, Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import UserContext from '../context/UserContext';
+import LoadingScreen from "./LoadingScreen";
 
 const LoginPage = () => {
   const context = useContext(UserContext);
   const { loginCheck } = context;
   const navigate = useNavigate();
-  
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -21,14 +22,18 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data) => {
+    setIsLoading(true)
     const result = await loginCheck({ email: data.email, password: data.password });
+    setIsLoading(false)
     if (result.success) {
       navigate('/');
     } else {
       alert("Invalid Credentials");
     }
   };
-
+  if (isLoading) {
+    return <LoadingScreen message="Loading your digital notebook..." />;
+  }
   return (
     <Container>
       <Paper
