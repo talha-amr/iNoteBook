@@ -6,6 +6,7 @@ import AddForm from "./AddForm";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
+
 function Home() {
     let navigate = useNavigate();
     const context = useContext(NoteContext);
@@ -43,7 +44,7 @@ function Home() {
             <AddForm />
             <Grid
                 container
-                spacing={3}
+                spacing={2}
                 justifyContent={{ xs: 'center', sm: 'flex-start' }} // Center on mobile, left on larger screens
                 alignItems="center"
             >
@@ -61,6 +62,7 @@ function Home() {
                                 description={note.description}
                                 tag={note.tag}
                                 id={note._id}
+                                date={note.date}
                             />
                         </Grid>
                     ))

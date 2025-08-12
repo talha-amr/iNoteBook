@@ -11,12 +11,14 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, useNavigate } from 'react-router-dom';
 import UserContext from '../context/UserContext';
-import { useContext } from 'react';
+import { useContext,useState } from 'react';
+import LoadingScreen from "./LoadingScreen";
 
 const allPages = ['Dashboard', 'About'];
 const authPages = ['Login', 'Signup'];
 
 function Navbar() {
+    const [isLoading, setIsLoading] = useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   let Navigate = useNavigate();
   let context = useContext(UserContext);
@@ -31,11 +33,15 @@ function Navbar() {
   };
 
   const logoutProcess = async () => {
+    setIsLoading(true)
     await logout();
+    setIsLoading(false)
     Navigate('/');
     handleCloseNavMenu();
   };
-
+if (isLoading) {
+  return <LoadingScreen message="Logging out ... GoodBye!" />;
+}
   return (
     <AppBar position="static" color='primary'>
       <Container maxWidth="xl">
