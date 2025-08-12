@@ -22,7 +22,7 @@ function App() {
       <Home />
     </NoteState>
   } />
-        <Route exact path="/About" element={<About/>} /> 
+        <Route exact path="/About" element={ <NoteState><About/></NoteState>} /> 
         <Route exact path="/" element={<Welcome/>} />
         <Route exact path="/login" element={<LoginPage/>} />
         <Route exact path="/signup" element={<SignupPage/>} />

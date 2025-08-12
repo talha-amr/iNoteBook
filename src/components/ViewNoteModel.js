@@ -10,6 +10,14 @@ import {
 } from "@mui/material";
 
 export function ViewNoteModal({ open, handleClose, note }) {
+    const noteDate = new Date(note.date)
+        const formattedDate = noteDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
     return (
         <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
             <DialogTitle sx={{ color:'black', fontWeight: 'bold' }}>Title: {note.title}</DialogTitle>
@@ -19,7 +27,7 @@ export function ViewNoteModal({ open, handleClose, note }) {
                         Tag: {note.tag}
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
-                        Created: {note.date}
+                        Created: {formattedDate}
                     </Typography>
                 </Box>
                 <Divider sx={{ my: 2 }} />
