@@ -63,6 +63,7 @@ export default function NoteCard(props) {
                 sx={{ 
                     minHeight: 300, 
                     display: "flex", 
+                    maxWidth:275,
                     flexDirection: "column", 
                     justifyContent: "space-between",
                     width: '100%', // Ensures card takes full width of its container
