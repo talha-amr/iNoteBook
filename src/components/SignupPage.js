@@ -28,20 +28,23 @@ export default function SignupPage() {
 
   const password = watch("password"); 
 
-  const onSubmit = async (data) => {
-     setIsLoading(true)
+const onSubmit = async (data) => {
+    setIsLoading(true);
     const result = await SignupCheck({
-      name: data.name,
-      email: data.email,
-      password: data.password,
+        name: data.name,
+        email: data.email,
+        password: data.password,
     });
-     setIsLoading(false)
+    
+    setIsLoading(false);
+    
     if (result.success) {
-      navigate('/');
+        navigate('/');
     } else {
-      alert("Signup Failed");
+        alert(result.error || "Signup failed");
     }
-  };
+};
+
 if (isLoading) {
   return <LoadingScreen message="Creating your account..." />;
 }

@@ -3,24 +3,35 @@ import UserContext from "./UserContext";
 export default function UserState(props) {
   const host="http://localhost:5000/"
    const [user, setUser] = useState(null);
-   const SignupCheck = async ({ name, email, password }) => {
-    const response = await fetch(`${host}api/auth/createUser`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, email, password })
-    });
+  const SignupCheck = async ({ name, email, password }) => {
+    try {
+        const response = await fetch(`${host}api/auth/createUser`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, email, password })
+        });
 
-    const json = await response.json();
-    if (json.success) {
-      localStorage.setItem("authToken", json.authToken);
-      return { success: true };
-    } else {
-      return { success: false};
+        const json = await response.json();
+        
+        if (!response.ok) {
+            return { 
+                success: false, 
+                error: json.error || "Signup failed" 
+            };
+        }
+
+        localStorage.setItem("authToken", json.authToken);
+        return { success: true };
+        
+    } catch (error) {
+        return { 
+            success: false, 
+            error: "Network error - please try again" 
+        };
     }
-  };
-
+};
   const loginCheck = async ({ email, password }) => {
     const response = await fetch(`${host}api/auth/login`, {
       method: 'POST',
